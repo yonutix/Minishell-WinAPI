@@ -1,0 +1,32 @@
+Tema 1 SO
+Mihai Ionut Cosmin 332CC
+
+Comenzile interne le-am tratat separat, am folosit functiile chdir() si exit(0) pentru ele.
+
+Pentru celelate comenzi clonez cate un proces cu fork() si apoi ii clonez imaginea.
+
+Executia pipe-urilor a fost ceva mai complexa, intrucat am folosit o coada de comenzi simple care s-a umplut o data cu 
+umplerea stivei si a ramas pana la revenirea din aceasta.
+
+Am mai avut probleme la redirectari din cauza flag-urilor functiei open.
+
+===============================
+Functii folosite:
+===============================
+static char* expand(word_t *word) expandreaza o comanda in sensul ca inlocuieste variabila de mediu cu valoarea acesteia
+sau cu sirul vid daca variabila nu este definita.
+
+static pid_t exec_process(simple_command_t *s, command_t *father, pid_t pid)
+lanseaza un proces cu redirectarile facute fara sa-l astepte si fara sa-i faca fork().
+
+
+static pid_t startProcess(simple_command_t *s, command_t *father) lanseaza un proces fara a-l astepta.
+
+static bool do_in_parallel(command_t *cmd, command_t *father) porneste recursiv procese si le asteapta in parintele care
+ nu contine operator pentru executare in paralel sau care are parintele NULL.
+
+static bool do_on_pipe(command_t *cmd, command_t *father, simple_command_t *queue[100], unsigned int *queue_len)
+Folosesc o functie recursiva care atunci cand umple stiva, umple si o coada de comenzi, apoi cand 
+parintele nodului e NULL sau nu contine operatorul pipe parcurge coada si leaga pipe-urile.
+
+
